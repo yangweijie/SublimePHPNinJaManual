@@ -38,7 +38,9 @@ Sublime中的函数手册提示，中文，其他语言的可以通过命令生�
 ![](https://raw.githubusercontent.com/martinsik/php-doc-parser/master/doc/animation.gif)
 生成好这2个json文件后， 复制到，插件目录的 App/Runtime/Data里，![](http://ww1.sinaimg.cn/mw1024/50075709gw1eweqeagv1bj208503dglk.jpg) 到时候就不是zh 而是en。
 然后 命令行切换到插件目录里执行 
+
 ![](http://ww4.sinaimg.cn/mw1024/50075709gw1eweqevv5xpj20fy01lwex.jpg)
+
 会提示多少函数导入了。我没生成英文的，所以是0。
 ## 未来特性
 可能会用PHPConnector 重构下
