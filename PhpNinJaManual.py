@@ -68,17 +68,12 @@ class find_comment(threading.Thread):
 			self.window = self.view.window()
 			tmp = sublime.decode_value(data).replace('\\n', '<br>')
 			print(tmp)
-			styled_popup.show_popup(self.view, tmp)
+			styled_popup.show_popup(self.view, tmp, on_navigate=self.nav, max_width=700)
 		else:
 			sublime.status_message('not found')
 
-	def choose(self, flag):
-		if flag != -1:
-			if flag == len(self.item) - 1:
-				self.word = self.word.replace('_','-')
-				open_tab('http://www.php.net/manual/%(lang)s/function.%(function)s.php' % {'lang':'zh', 'function': self.word})
-			else:
-				sublime.set_clipboard(self.item[flag])
+	def nav(self, url):
+		open_tab(url)
 
 class ThreadProgress():
 	"""

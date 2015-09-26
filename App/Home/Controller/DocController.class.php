@@ -54,10 +54,11 @@ sql;
 			// slog($data);
 			$this->assign('fun', $data);
 			$url = "http://www.php.net/manual/{$lang}/function.{$function}.php";
-			$url = str_replace('-', '_', $url);
+			$url = str_replace('_', '-', $url);
 			$this->assign('url', $url);
 			$output = $this->fetch('find');
 			$output = str_replace('\_', '_', $output);
+			$output = str_replace('&', '&amp;', $output);
 			exit(json_encode($output));
 		}else{
 			exit();

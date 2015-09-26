@@ -17,19 +17,19 @@ Sublime中的函数手册提示，中文，其他语言的可以通过命令生�
 
 ## 使用说明
 选中要查看的php函数名，然后右键会发现 “查看函数说明”菜单![](http://ww3.sinaimg.cn/mw1024/50075709gw1eweqa43989j20c40e077h.jpg) ，点击后，
-会弹出函数说明浮层 ![](http://ww3.sinaimg.cn/mw1024/50075709gw1eweqagrellj20dn08e40j.jpg)
+会弹出函数说明浮层 ![](http://ww2.sinaimg.cn/mw1024/50075709gw1ewfznodyolj20mt07sq5t.jpg)
 ## 关于手册其他语言的生成
 拿英文 en 举例。
 先到 手册解析器主页：https://github.com/martinsik/php-doc-parser
 找一个目录 写上composer.json 
 内容：
 
-{
-“require”: {
-  ...
-  "martinsik/php-doc-parser": "~2.0"
-}
-}
+	{
+		"require": {
+		  ...
+		  "martinsik/php-doc-parser": "~2.0"
+		}
+	}
 
 然后 `composer.phar install` 也可能 composer install
 装好后， 当前目录vendor/bin 下会有![](http://ww3.sinaimg.cn/mw1024/50075709gw1eweqbqozgtj208c03w0sq.jpg) 执行文件，然后 
@@ -43,14 +43,34 @@ Sublime中的函数手册提示，中文，其他语言的可以通过命令生�
 
 会提示多少函数导入了。我没生成英文的，所以是0。
 ## 未来特性
-可能会用PHPConnector 重构下
+可能会用PHPConnector 重构下。
+可能会把示列加上，不过数据库体积就更大了，而且可能显示会更长
 ## 注意点
-- 有的函数因为返回了&$count 这类Sublime插件语言中的关键字导致解析不了向后的html字符串![](http://ww1.sinaimg.cn/mw1024/50075709gw1eweqfm5h0tj20az04a0to.jpg)。暂时不知道怎么修复
-- 由于那个浮层组件不支持设定宽高，目前长内容会出现滚动条，只能等作者解决了，我会向他提Issue的。
+- <s>有的函数因为返回了&$count 这类Sublime插件语言中的关键字导致解析不了向后的html字符串![](http://ww1.sinaimg.cn/mw1024/50075709gw1eweqfm5h0tj20az04a0to.jpg)。暂时不知道怎么修复</s> 已经被作者告知了方法，已修复。PHP返回那边转义了'&'符号 √
+- <s>由于那个浮层组件不支持设定宽高，目前长内容会出现滚动条，只能等作者解决了，我会向他提Issue的。</s> 作者也告知了有个宽度的参数 ，我改了下插件，设了700 以后提供配置吧。反正我用str_replace函数测试足够了。√
 - 解析手册用的是PHP，需要你们的 命令行里php 可用，所有， 最好检查下自己的系统环境变量或者聪明的里 php -v 能不能用
-- 
-- 
-- 
+- 参数解释前添加了 返回类型显示和高亮，另外函数名可以点击 去PHP官网查看。
+- 如果你想定义输出的格式，和样式可以去看插件目录里的app Doc控制器的find方法。和find.html 模板。
+find.html
+~~~
+<style>
+a{
+	color: #62D9EF;
+}
+</style>
+<span class="keyword">{$fun.params.0.ret_type}</span> <a class="entity name function" href="{$url}">{$fun.params.0.name}</a> (<span class="comment line"><volist name="fun.params.0.list" id="i">
+	[ <neq name="key" value="0">,</neq><span class="keyword">{$i.type}</span> <span class="string quoted">{$i.var}</span> ]' {$i['beh']? $i['beh']:$i['type']}  {$i.var}
+</volist></span>)
+<p>{$fun.long_desc}</p>
+<p>参数: <br>
+<volist name="fun.params.0.list" id="i">
+	{$i.var} - {$i['desc']? $i['desc']: '暂无说明'} <br>
+	</volist>
+</p>
+~~~
+直接改HTML和控制器后直接调试插件的效果太他妈爽了，可惜我没有配色天赋。曾经尝试body白色，想弄个清淡的浮层，发现body外还有边距。反正大家可以自由DIY。配出适合自己主题的样式。可以告诉我，我以后，可以动态的针对不同主题调用不同样式，达到显示最优化。
+
+
 ## 有问题反馈
 在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
 
