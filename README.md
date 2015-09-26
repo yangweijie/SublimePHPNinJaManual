@@ -18,6 +18,8 @@ Sublime中的函数手册提示，中文，其他语言的可以通过命令生�
 ## 使用说明
 选中要查看的php函数名，然后右键会发现 “查看函数说明”菜单![](http://ww3.sinaimg.cn/mw1024/50075709gw1eweqa43989j20c40e077h.jpg) ，点击后，
 会弹出函数说明浮层 ![](http://ww2.sinaimg.cn/mw1024/50075709gw1ewfznodyolj20mt07sq5t.jpg)
+
+如果想配快捷键，只需要你自定义快捷键里 commond 写 `show_php_document`就行了，这个参考Sublime手册快捷键，自己定义一个就好了。比如 f1或者 其他。
 ## 关于手册其他语言的生成
 拿英文 en 举例。
 先到 手册解析器主页：https://github.com/martinsik/php-doc-parser
@@ -36,7 +38,9 @@ Sublime中的函数手册提示，中文，其他语言的可以通过命令生�
 
 `vendor/bin/doc-parser help parser:run`
 ![](https://raw.githubusercontent.com/martinsik/php-doc-parser/master/doc/animation.gif)
-生成好这2个json文件后， 复制到，插件目录的 App/Runtime/Data里，![](http://ww1.sinaimg.cn/mw1024/50075709gw1eweqeagv1bj208503dglk.jpg) 到时候就不是zh 而是en。
+生成好这2个json文件后， 复制到，插件目录的 App/Runtime/Data里，![](http://ww1.sinaimg.cn/mw1024/50075709gw1eweqeagv1bj208503dglk.jpg) 
+
+到时候就不是zh 而是en。
 然后 命令行切换到插件目录里执行 
 
 ![](http://ww4.sinaimg.cn/mw1024/50075709gw1eweqevv5xpj20fy01lwex.jpg)
