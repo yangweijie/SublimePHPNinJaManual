@@ -5,9 +5,7 @@ import styled_popup
 import codecs,os,subprocess,threading,json,webbrowser,base64
 from subprocess import PIPE
 
-packages_path = sublime.packages_path() + os.sep + 'PhpNinJaManual'
-settings = sublime.load_settings('PhpNinJaManual.sublime-settings')
-print(settings.get('lang'))
+packages_path = os.path.split(os.path.realpath(__file__))[0]
 
 def fs_reader(path):
 	return codecs.open(path, mode='r', encoding='utf8').read()
@@ -46,6 +44,8 @@ class find_comment(threading.Thread):
 		threading.Thread.__init__(self)
 
 	def run(self):
+		settings = sublime.load_settings('PhpNinJaManual.sublime-settings')
+		print(settings.get('lang'))
 		lang = settings.get('lang')
 		path = packages_path + os.sep + 'php_docs' + os.sep + lang + os.sep
 		db_file = path + 'doc.sqlite'
