@@ -9,7 +9,7 @@ Sublime中的函数手册提示，中文，其他语言的可以通过命令生�
 而后，自己其实一直用的chrome 浏览器的插件，PHP NanJa Manual。支持各种语言，也有示列，就是每次写代码开浏览器太麻烦了。由于他提供一个开源库[PHP doc parser](https://github.com/martinsik/php-doc-parser)，可以将php官方手册转换成json文件，自己就有了移植的想法。
 ![](https://raw.githubusercontent.com/martinsik/php-doc-parser/master/doc/animation.gif)
 所以名字就参考了他的，希望不要告侵权。
-由于son文件过于大，python没有缓存机制（或许我不知道），我就用thinkphp 转成了一个db。2个表 fun、funlist  fun存 函数名， funlist存 函数名和对应son数据。
+由于son文件过于大，python没有缓存机制（或许我不知道），我就用thinkphp 转成了一个sqlite db。2个表 fun、funlist  fun存 函数名， funlist存 函数名和对应son数据。
 ## 安装
 使用Sublime Text 3 Package Control 插件(http://wbond.net/sublime\_packages/package\_control) 按 CTRL + SHIFT + P 后 找到 _Package Control: Install Package_ 然后回车。列表中找到**PhpNinJaManual**这个插件（等审核过了会有）。
 
@@ -76,7 +76,7 @@ a{
 </p>
 ~~~
 直接改HTML和控制器后直接调试插件的效果太他妈爽了，可惜我没有配色天赋。曾经尝试body白色，想弄个清淡的浮层，发现body外还有边距。反正大家可以自由DIY。配出适合自己主题的样式。可以告诉我，我以后，可以动态的针对不同主题调用不同样式，达到显示最优化。
-
+- 今天发现有人查不出来，因为php命令行里没有开启sqlite扩展😊，于是帮他的iis中php开启了保险起见也开启了pdo_sqlite。大家下次记得先php -m 看看命令行的php能不能用sqlite。
 ## 有问题反馈
 在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
 
