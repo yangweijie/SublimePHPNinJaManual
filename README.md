@@ -41,11 +41,14 @@ Sublime中的函数手册提示，中文，其他语言的可以通过命令生�
 生成好这2个json文件后， 复制到，插件目录的 App/Runtime/Data里，![](http://ww1.sinaimg.cn/mw1024/50075709gw1eweqeagv1bj208503dglk.jpg) 
 
 到时候就不是zh 而是en。
-然后 命令行切换到插件目录里执行 
+然后 命令行切换到插件目录里执行 2条命令 ：
+- `php index.php "Doc/importFun/lang/en"`
+- `php index.php "Doc/importFunList/lang/en"`
+![](http://ww3.sinaimg.cn/mw1024/50075709jw1eysahlch8hj20b501jwf2.jpg)
+会提示多少函数导入了。这是最新中文版的数量，en的是9863 个函数
 
-![](http://ww4.sinaimg.cn/mw1024/50075709gw1eweqevv5xpj20fy01lwex.jpg)
-
-会提示多少函数导入了。我没生成英文的，所以是0。
+PS：因为怕用户麻烦，我更新了中文的数据库文件和添加了英文数据库文件，英文的比较全多大概300个函数。如果想使用英文的同学 git clone最新版的插件，修改插件配置 lang->en 保存后重启插件。
+就能看到如下的图：![en doc support](http://ww1.sinaimg.cn/mw1024/50075709jw1eysanj3tdij20k007aaca.jpg)
 ## 未来特性
 可能会用PHPConnector 重构下。
 可能会把示列加上，不过数据库体积就更大了，而且可能显示会更长

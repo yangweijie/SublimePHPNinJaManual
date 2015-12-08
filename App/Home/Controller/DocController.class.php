@@ -6,6 +6,14 @@ class DocController extends Controller{
 	protected $funListFile;
 	protected $funFile;
 
+	protected function _before_find(){
+		$config = C();
+		$config['DB_TYPE'] = 'sqlite';
+		$config['DB_NAME'] = './php_docs/'.i('lang').'/doc.sqlite';
+		$config['DB_PREFIX'] = '';
+		C($config);
+	}
+
 	protected function _initialize(){
 		header('content-type:text/html;charset:utf-8');
 		$config = C();
@@ -45,9 +53,9 @@ sql;
 
 	//返回手册数据
 	public function find($function, $lang){
-		$foo = M('funlist')->where("name='{$function}'")->cache(true)->find();
+		$foo = M('funlist')->where("name='{$function}'")->find();
 		if($foo){
-			$data = M('fun')->where("name='{$function}'")->cache(true)->getField('data');
+			$data = M('fun')->where("name='{$function}'")->getField('data');
 			$data = json_decode($data, true);
 			if(!$data['long_desc'])
 				$data['long_desc'] = $data['desc'];
