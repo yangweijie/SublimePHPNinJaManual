@@ -1,0 +1,9 @@
+Realize using php to extend Sublime.
+
+Feature:
+
+1. a command to list avaliab command driven by php with Key ctrl+shift+r.
+2. autoload PHP namespaces in a special dir.
+3. Stantand for communication with PHP and Sublime Text.
+4. custome exception.
+5. base64 and json encoding , no messy code.

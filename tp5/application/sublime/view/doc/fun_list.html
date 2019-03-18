@@ -1,0 +1,16 @@
+<style>
+a{
+	color: #62D9EF;
+}
+</style>
+{volist name="list" id="li"}
+<div>
+<h1>{$key}</h1>
+<ul>
+	{volist name="li" id="vo"}
+	<li><a href="{$vo['name']}">{$vo['name']}</a></li>
+	{/volist}
+</ul>
+<br>
+</div>
+{/volist}
