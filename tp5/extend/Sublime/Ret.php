@@ -13,6 +13,7 @@ class Ret{
 	const RETURN_TYPE_SHOW_INPUT_PANEL  = 'show_input_panel';
 	const RETURN_TYPE_SHOW_POPUP_MENU   = 'show_popup_menu';
 	const RETURN_TYPE_SHOW_POPUP        = 'show_popup';
+	const RETURN_TYPE_OPEN_TAB          = 'open_tab';
 
 	const SUBLIMT_CONSTS = [
 		'MONOSPACE_FONT'               => 1,
@@ -154,6 +155,15 @@ class Ret{
 		return self::encode($arr);
 	}
 
+	public static function open_tab($url){
+		$arr = [
+			'code' => 200,
+			'type' => self::RETURN_TYPE_OPEN_TAB,
+			'url'  => $url,
+		];
+		return self::encode($arr);
+	}
+
 	/**
 	 * 返回执行命令
 	 * @param  string $cmd  命令
@@ -195,7 +205,7 @@ class Ret{
 			$ar = mb_convert_encoding($ar, 'UTF-8', 'UTF-8');
 		}
 		$data = json_encode($arr, JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
-		trace($data === false);
+		// trace($data === false);
 		$data = base64_encode($data);
 		return $data;
 	}

@@ -8,7 +8,10 @@ use Sublime\Ret;
 use Medoo\Medoo;
 class FindCommentCmd{
 
-	public static function run($function = '', $lang = 'zh'){
+	public static function run($function = '', $lang = 'zh', $url = ''){
+		if($url){
+			return Ret::open_tab($url);
+		}
 		// try {
 			define('DS', DIRECTORY_SEPARATOR);
 			$package_path = Env::get('root_path').'..';
@@ -46,8 +49,15 @@ class FindCommentCmd{
 					trace($output);
 					// return json_encode($output, JSON_UNESCAPED_UNICODE);
 					return Ret::show_popup($output, Ret::SUBLIMT_CONSTS['HIDE_ON_MOUSE_MOVE_AWAY'], -1, 700, 1400, [
-						'cmd'  => 'open_tab',
-						'args' => ['url'=>''],
+						'cmd'  => 'php_box',
+						'args' => [
+							'call'=>'app\sublime\command\FindCommentCmd',
+							'cmd_args'=>[
+								'url'      => '',
+								'function' => '',
+								'lang'     => '',
+							]
+						],
 					]);
 				}else{
 					trace('none');

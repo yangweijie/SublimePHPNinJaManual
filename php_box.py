@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sublime, sublime_plugin, sys
 # import sublime_lib
-import os, codecs, subprocess, string, json, threading, re, time
+import os, codecs, subprocess, string, json, threading, re, time,webbrowser
 import base64,binascii
 
 from .thread_progress import ThreadProgress
@@ -9,6 +9,9 @@ from .thread_progress import ThreadProgress
 package_name = 'PhpNinJaManual'
 packages_path = os.path.split(os.path.realpath(__file__))[0]
 command_bin = packages_path + os.sep + 'tp5' + os.sep + 'public' + os.sep + 'index.php'
+
+def open_tab(url):
+	webbrowser.open_new_tab(url)
 
 def PKGPATH():
 	global package_name
@@ -199,6 +202,8 @@ class php_execute(threading.Thread):
 							result['on_hide_cmd']['args']['inner'] = 1
 						self.window.run_command(u"{0}".format(result['on_hide_cmd']['cmd']), result['on_hide_cmd']['args'])
 				self.view.show_popup(result['content'], result['flags'], result['location'], result['max_width'], result['max_height'], on_navigate, on_hide)
+			elif result['type'] == 'open_tab':
+				open_tab(result['url'])
 			elif result['type'] == 'run_command':
 				cmd = u"{0}".format(result['cmd'])
 				result['args']['inner'] = 1

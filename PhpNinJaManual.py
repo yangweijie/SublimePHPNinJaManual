@@ -12,12 +12,8 @@ packages_path = os.path.split(os.path.realpath(__file__))[0]
 def fs_reader(path):
 	return codecs.open(path, mode='r', encoding='utf8').read()
 
-# def open_tab(url):
-# 	webbrowser.open_new_tab(url)
-
-class open_tab(PhpNinJaManualCommand, sublime_plugin.TextCommand):
-	def run(self, url):
-		webbrowser.open_new_tab(url)
+def open_tab(url):
+	webbrowser.open_new_tab(url)
 
 class PhpNinJaManualCommand(sublime_plugin.TextCommand):
 	def run(self, edit):

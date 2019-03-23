@@ -1,12 +1,12 @@
 {
     "package_path": "E:\\GreenSoft\\Sublime Text Build 3143 x64\\Data\\Packages\\PhpNinJaManual",
     "view": {
-        "buffer_id": 636,
-        "change_count": 0,
+        "buffer_id": 277,
+        "change_count": 276,
         "em_width": 10.0,
         "encoding": "UTF-8",
-        "file_name": "E:\\GreenSoft\\Sublime Text Build 3143 x64\\Data\\Packages\\PhpNinJaManual\\messages\\2.0.0.txt",
-        "id": 248,
+        "file_name": "E:\\wamp64\\www\\git\\oneblog2\\public\\static\\admin\\js\\builder\\form.js",
+        "id": 105,
         "is_auto_complete_visible": false,
         "is_dirty": false,
         "is_popup_visible": false,
@@ -14,14 +14,14 @@
         "is_read_only": false,
         "is_scratch": false,
         "layout_extent": [
-            230.0,
-            67.0
+            2720.0,
+            23959.0
         ],
         "line_endings": "Unix",
         "line_height": 22.0,
         "name": "",
-        "sel": "json_encode",
-        "size": 39,
+        "sel": "var curr_uploader = {};",
+        "size": 41893,
         "style": {
             "accent": "#66d9ef",
             "active_guide": "#784714",
@@ -57,8 +57,8 @@
             "yellowish": "#e6db74"
         },
         "viewport_extent": [
-            1375.0,
-            650.0
+            1256.0,
+            634.0
         ]
     },
     "window": {
@@ -79,7 +79,6 @@
                 "console",
                 "find",
                 "find_in_files",
-                "output.diagnostics",
                 "output.find_results",
                 "output.sftp",
                 "replace"
