@@ -79,6 +79,8 @@ class php_execute(threading.Thread):
 
 	def executeReceive(self, result):
 		print(result)
+		curr_view = sublime.active_window().active_view()
+		self.window = curr_view.window()
 		if result['code'] == 200:
 			if result['type'] == 'error_dialog':
 				sublime.error_message(u"{0}".format(result['msg']))
@@ -201,7 +203,7 @@ class php_execute(threading.Thread):
 						if 'cmd_args' in result['on_hide_cmd']['args']:
 							result['on_hide_cmd']['args']['inner'] = 1
 						self.window.run_command(u"{0}".format(result['on_hide_cmd']['cmd']), result['on_hide_cmd']['args'])
-				self.view.show_popup(result['content'], result['flags'], result['location'], result['max_width'], result['max_height'], on_navigate, on_hide)
+				curr_view.show_popup(result['content'], result['flags'], result['location'], result['max_width'], result['max_height'], on_navigate, on_hide)
 			elif result['type'] == 'open_tab':
 				open_tab(result['url'])
 			elif result['type'] == 'run_command':
