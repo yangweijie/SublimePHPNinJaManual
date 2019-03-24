@@ -1,0 +1,3 @@
+Welcome to installed PhpBox！
+
+Make sure you have installed php evn in your os.

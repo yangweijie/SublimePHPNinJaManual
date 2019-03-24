@@ -1,0 +1,96 @@
+{
+    "package_path": "E:\\GreenSoft\\Sublime Text Build 3143 x64\\Data\\Packages\\PhpNinJaManual",
+    "view": {
+        "buffer_id": 277,
+        "change_count": 276,
+        "em_width": 10.0,
+        "encoding": "UTF-8",
+        "file_name": "E:\\wamp64\\www\\git\\oneblog2\\public\\static\\admin\\js\\builder\\form.js",
+        "id": 105,
+        "is_auto_complete_visible": false,
+        "is_dirty": false,
+        "is_popup_visible": false,
+        "is_primary": true,
+        "is_read_only": false,
+        "is_scratch": false,
+        "layout_extent": [
+            2720.0,
+            23959.0
+        ],
+        "line_endings": "Unix",
+        "line_height": 22.0,
+        "name": "",
+        "sel": "var curr_uploader = {};",
+        "size": 41893,
+        "style": {
+            "accent": "#66d9ef",
+            "active_guide": "#784714",
+            "background": "#272822",
+            "block_caret": "#49483e",
+            "bluish": "#66d9ef",
+            "caret": "#f8f8f0",
+            "cyanish": "#66d9ef",
+            "find_highlight": "#ffe792",
+            "find_highlight_foreground": "#000000",
+            "foreground": "#f8f8f2",
+            "greenish": "#a6e22e",
+            "guide": "#464741",
+            "gutter": "#272822",
+            "gutter_foreground": "#8f908a",
+            "highlight": "#c3c4bc",
+            "inactive_selection": "#383830",
+            "inactive_selection_foreground": "#f8f8f2",
+            "invisibles": "#3b3a32",
+            "line_highlight": "#3e3d32",
+            "minimap_border": "#8f9089",
+            "misspelling": "#f92672",
+            "orangish": "#fd971f",
+            "pinkish": "#f92672",
+            "purplish": "#ae81ff",
+            "redish": "#f83333",
+            "rulers": "#5b5c56",
+            "selection": "#49483e",
+            "selection_border": "#222218",
+            "selection_foreground": "#f8f8f2",
+            "shadow": "#131411",
+            "stack_guide": "#784714",
+            "yellowish": "#e6db74"
+        },
+        "viewport_extent": [
+            1256.0,
+            634.0
+        ]
+    },
+    "window": {
+        "window": {
+            "active_group": 0,
+            "active_panel": "console",
+            "folders": [
+                "E:\\GreenSoft\\Sublime Text Build 3143 x64\\Data\\Packages\\PhpNinJaManual"
+            ],
+            "get_tabs_visible": true,
+            "id": 5,
+            "is_menu_visible": true,
+            "is_minimap_visible": true,
+            "is_sidebar_visible": true,
+            "is_status_bar_visible": true,
+            "num_groups": 1,
+            "panels": [
+                "console",
+                "find",
+                "find_in_files",
+                "output.find_results",
+                "output.sftp",
+                "replace"
+            ],
+            "project_data": {
+                "folders": [
+                    {
+                        "path": "E:\\GreenSoft\\Sublime Text Build 3143 x64\\Data\\Packages\\PhpNinJaManual"
+                    }
+                ]
+            },
+            "project_file_name": null
+        }
+    }
+}
