@@ -229,12 +229,11 @@ def check_php(path):
 	else:
 		check_php_path = False;
 	if check_php_path == False:
-		sublime.windows()[0].show_input_panel(u'Please input php bin path', '/usr/local/bin/php', self.done, None, None)
+		def on_done(input_path):
+			settings = sublime.load_settings("PhpBox.sublime-settings")
+			settings.set('php_path', input_path)
+		sublime.windows()[0].show_input_panel(u'Please input php bin path', '/usr/local/bin/php', on_done, None, None)
 	return check_php_path
-
-	def done(self,path):
-		settings = sublime.load_settings("PhpBox.sublime-settings")
-		settings.set('php_path', path)
 
 class PhpBoxCommand(sublime_plugin.TextCommand):
 	def refresh_curr(self, curr):
