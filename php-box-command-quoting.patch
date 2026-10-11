@@ -1,0 +1,25 @@
+diff --git a/php_box.py b/php_box.py
+index f9bb7c2..5b3579e 100644
+--- a/php_box.py
++++ b/php_box.py
+@@ -37,7 +37,9 @@ class php_execute(threading.Thread):
+ 
+ 	def run(self):
+ 
+-		command_text = self.php_bin+' "' + command_bin + '" sublime/index/run/call/'+self.cmd+'/args/'+ base64.b64encode(json.dumps(self.args, sort_keys=True).encode('utf-8')).decode('utf-8')
++		# 每个参数都要加引号：否则 POSIX shell 会把 app\sublime\... 里的反斜杠当转义符吃掉，
++		# 且 php 路径含空格时（如 C:\Program Files\...）会解析失败
++		command_text = '"' + self.php_bin + '" "' + command_bin + '" "sublime/index/run/call/' + self.cmd + '/args/' + base64.b64encode(json.dumps(self.args, sort_keys=True).encode('utf-8')).decode('utf-8') + '"'
+ 		print(command_text)
+ 		cloums = os.popen(command_text)
+ 		data = cloums.read()
+@@ -220,7 +222,8 @@ class php_execute(threading.Thread):
+ 
+ def check_php(path):
+ 	php_path = path
+-	check_php_path = os.popen(php_path + ' -v').read()
++	# 加引号，避免 php 路径含空格时被 shell 拆成多个参数
++	check_php_path = os.popen('"' + php_path + '" -v').read()
+ 	# print(php_path);
+ 	# print(check_php_path)
+ 	pattern = re.compile(r'^PHP \d+.\d+');

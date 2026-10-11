@@ -1,0 +1,32 @@
+diff --git a/php_box.py b/php_box.py
+index 5b3579e..5b25a17 100644
+--- a/php_box.py
++++ b/php_box.py
+@@ -55,13 +55,12 @@ class php_execute(threading.Thread):
+ 			print(out)
+ 		try:
+ 			result_str = base64.b64decode(out)
+-		except (TypeError):
++		except (TypeError, ValueError, binascii.Error):
++			# PHP 输出不是合法的 base64（通常是 PHP 报错信息），
++			# 直接把原始输出报给用户，不再继续解析
+ 			print(out)
+-			pass
+-		except (binascii.Error):
+-			print(out)
+-			pass
+-		result = 0;
++			sublime.error_message(u"PHP ERROR:\n{0}".format(out))
++			return
+ 		try:
+ 			result = json.loads(result_str.decode('utf-8'))
+ 		except (ValueError):
+@@ -71,7 +70,7 @@ class php_execute(threading.Thread):
+ 					sublime.error_message(u"PHP ERROR:\n{0}".format(result_str.decode('utf-8')))
+ 				except(UnicodeDecodeError):
+ 					sublime.error_message(u"PHP ERROR:\n{0}".format(result_str_raw))
+-			pass
++			return
+ 		print(type(result))
+ 		print(result)
+ 		# -------------------------------------------------------------------

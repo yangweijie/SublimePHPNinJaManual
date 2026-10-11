@@ -8,7 +8,7 @@ a{
 {/volist}</span>)
 <p>{$fun.long_desc}</p>
 <p>参数: <br>
-{volist name="fun.params.0.list" id="i"}
+{volist name="fun.params.0.list" id="i" key="key"}
 	{$i.var} - {$i['desc']? $i['desc']: '暂无说明'} <br>
 {/volist}
 </p>

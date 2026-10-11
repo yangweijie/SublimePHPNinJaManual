@@ -69,6 +69,13 @@ class Error
     public static function appError($errno, $errstr, $errfile = '', $errline = 0)
     {
         $exception = new ErrorException($errno, $errstr, $errfile, $errline);
+
+        // PHP 8 起旧版框架代码会产生大量 E_DEPRECATED（如隐式 nullable 参数、
+        // 向内置函数传 null 等），这些不影响运行，忽略以避免被转换为异常中断执行
+        if (E_DEPRECATED === $errno || E_USER_DEPRECATED === $errno) {
+            return;
+        }
+
         if (error_reporting() & $errno) {
             // 将错误信息托管至 think\exception\ErrorException
             throw $exception;

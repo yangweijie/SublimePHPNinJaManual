@@ -37,7 +37,9 @@ class php_execute(threading.Thread):
 
 	def run(self):
 
-		command_text = self.php_bin+' "' + command_bin + '" sublime/index/run/call/'+self.cmd+'/args/'+ base64.b64encode(json.dumps(self.args, sort_keys=True).encode('utf-8')).decode('utf-8')
+		# 每个参数都要加引号：否则 POSIX shell 会把 app\sublime\... 里的反斜杠当转义符吃掉，
+		# 且 php 路径含空格时（如 C:\Program Files\...）会解析失败
+		command_text = '"' + self.php_bin + '" "' + command_bin + '" "sublime/index/run/call/' + self.cmd + '/args/' + base64.b64encode(json.dumps(self.args, sort_keys=True).encode('utf-8')).decode('utf-8') + '"'
 		print(command_text)
 		cloums = os.popen(command_text)
 		data = cloums.read()
@@ -53,13 +55,12 @@ class php_execute(threading.Thread):
 			print(out)
 		try:
 			result_str = base64.b64decode(out)
-		except (TypeError):
+		except (TypeError, ValueError, binascii.Error):
+			# PHP 输出不是合法的 base64（通常是 PHP 报错信息），
+			# 直接把原始输出报给用户，不再继续解析
 			print(out)
-			pass
-		except (binascii.Error):
-			print(out)
-			pass
-		result = 0;
+			sublime.error_message(u"PHP ERROR:\n{0}".format(out))
+			return
 		try:
 			result = json.loads(result_str.decode('utf-8'))
 		except (ValueError):
@@ -69,7 +70,7 @@ class php_execute(threading.Thread):
 					sublime.error_message(u"PHP ERROR:\n{0}".format(result_str.decode('utf-8')))
 				except(UnicodeDecodeError):
 					sublime.error_message(u"PHP ERROR:\n{0}".format(result_str_raw))
-			pass
+			return
 		print(type(result))
 		print(result)
 		# -------------------------------------------------------------------
@@ -218,9 +219,11 @@ class php_execute(threading.Thread):
 		else:
 			sublime.error_message(u"{0}".format(result['msg']))
 
-def check_php(path):
-	php_path = path
-	check_php_path = os.popen(php_path + ' -v').read()
+def check_php(path, on_ready=None):
+	# 未配置时回退到 PATH 里的 php，与 README 的说明一致
+	php_path = path or 'php'
+	# 加引号，避免 php 路径含空格时被 shell 拆成多个参数
+	check_php_path = os.popen('"' + php_path + '" -v').read()
 	# print(php_path);
 	# print(check_php_path)
 	pattern = re.compile(r'^PHP \d+.\d+');
@@ -232,7 +235,12 @@ def check_php(path):
 		def on_done(input_path):
 			settings = sublime.load_settings("PhpBox.sublime-settings")
 			settings.set('php_path', input_path)
-		sublime.windows()[0].show_input_panel(u'Please input php bin path', '/usr/local/bin/php', on_done, None, None)
+			# 不落盘的话重启后又得重新输入
+			sublime.save_settings("PhpBox.sublime-settings")
+			# 填好后直接重跑本次命令，省得用户再点一次
+			if on_ready is not None:
+				on_ready()
+		sublime.windows()[0].show_input_panel(u'Please input php bin path', php_path, on_done, None, None)
 	return check_php_path
 
 class PhpBoxCommand(sublime_plugin.TextCommand):
@@ -299,7 +307,10 @@ class PhpBoxCommand(sublime_plugin.TextCommand):
 		# return
 		self.settings = sublime.load_settings("PhpBox.sublime-settings")
 
-		if(check_php(self.settings.get('php_path'))) == False:
+		def rerun():
+			self.view.run_command('php_box', {'call': call, 'cmd_args': cmd_args})
+
+		if(check_php(self.settings.get('php_path'), rerun)) == False:
 			return
 		# print(command_bin)
 		# print(call)

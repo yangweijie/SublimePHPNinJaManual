@@ -341,6 +341,7 @@ abstract class Paginator implements ArrayAccess, Countable, IteratorAggregate, J
      * @return Traversable An instance of an object implementing <b>Iterator</b> or
      * <b>Traversable</b>
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new ArrayIterator($this->items->all());
@@ -352,6 +353,7 @@ abstract class Paginator implements ArrayAccess, Countable, IteratorAggregate, J
      * @param  mixed $offset
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return $this->items->offsetExists($offset);
@@ -363,6 +365,7 @@ abstract class Paginator implements ArrayAccess, Countable, IteratorAggregate, J
      * @param  mixed $offset
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->items->offsetGet($offset);
@@ -374,6 +377,7 @@ abstract class Paginator implements ArrayAccess, Countable, IteratorAggregate, J
      * @param  mixed $offset
      * @param  mixed $value
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->items->offsetSet($offset, $value);
@@ -386,6 +390,7 @@ abstract class Paginator implements ArrayAccess, Countable, IteratorAggregate, J
      * @return void
      * @since  5.0.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $this->items->offsetUnset($offset);
@@ -394,6 +399,7 @@ abstract class Paginator implements ArrayAccess, Countable, IteratorAggregate, J
     /**
      * Count elements of an object
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return $this->items->count();
@@ -424,6 +430,7 @@ abstract class Paginator implements ArrayAccess, Countable, IteratorAggregate, J
     /**
      * Specify data which should be serialized to JSON
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();
