@@ -1,0 +1,122 @@
+name: CI & Release
+
+# 发布机制说明
+# ---------------------------------------------------------------------------
+# 本插件已收录在 Package Control 官方频道，条目见
+#   sublimehq/package_control_channel → repository/p.json
+#
+#   {
+#     "name": "PhpNinJaManual",
+#     "details": "https://github.com/yangweijie/SublimePHPNinJaManual",
+#     "releases": [ { "sublime_text": ">=3000", "tags": true } ]
+#   }
+#
+# "tags": true 表示 Package Control 直接读取本仓库的 git tag，
+# 所以「发布新版到频道」== 构建通过后推一个新的版本 tag，不需要自建
+# channel.json / packages.json，也不用自己托管 zip。
+# ---------------------------------------------------------------------------
+
+on:
+  push:
+    branches: [master]
+
+# 串行化，避免两次发布同时算版本号而打架
+concurrency:
+  group: release-master
+  cancel-in-progress: false
+
+permissions:
+  contents: write # 推 tag 与创建 Release 需要写权限
+
+jobs:
+  build:
+    name: 构建校验
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装 PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_sqlite, sqlite3, mbstring
+          coverage: none
+
+      - name: 语法检查 + 冒烟测试
+        run: bash .github/scripts/ci-check.sh
+
+  release:
+    name: 发布新版
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 需要完整历史与 tag 才能推算版本号
+
+      - name: 计算下一个版本号
+        id: version
+        run: |
+          set -euo pipefail
+
+          latest="$(git tag --list | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1 || true)"
+          latest="${latest:-0.0.0}"
+
+          if [ -n "$(git tag --points-at HEAD)" ]; then
+            echo "HEAD 已经打过 tag（$(git tag --points-at HEAD | tr '\n' ' ')），跳过发布"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          IFS=. read -r major minor patch <<< "$latest"
+          next="$major.$minor.$((patch + 1))"
+
+          echo "上一个版本：$latest  →  本次发布：$next"
+          echo "latest=$latest" >> "$GITHUB_OUTPUT"
+          echo "next=$next" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - name: 打 tag 并推送
+        if: steps.version.outputs.skip == 'false'
+        env:
+          VERSION: ${{ steps.version.outputs.next }}
+        run: |
+          set -euo pipefail
+          git tag "$VERSION"
+          git push origin "$VERSION"
+          echo "已推送 tag $VERSION"
+
+      - name: 创建 GitHub Release
+        if: steps.version.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.next }}
+          LATEST: ${{ steps.version.outputs.latest }}
+        run: |
+          set -euo pipefail
+
+          notes="$RUNNER_TEMP/release-notes.md"
+          : > "$notes"
+
+          # messages/<版本>.txt 是给 Package Control 用的更新提示，顺手带上
+          if [ -f "messages/$VERSION.txt" ]; then
+            {
+              echo "## 更新说明"
+              echo
+              cat "messages/$VERSION.txt"
+              echo
+            } >> "$notes"
+          fi
+
+          {
+            echo "## 提交记录"
+            echo
+            if [ "$LATEST" != "0.0.0" ]; then
+              git log --no-merges --pretty='- %s (%h)' "$LATEST..HEAD"
+            else
+              git log --no-merges --pretty='- %s (%h)' -n 20
+            fi
+          } >> "$notes"
+
+          gh release create "$VERSION" --title "$VERSION" --notes-file "$notes"
+          echo "已发布 $VERSION"
