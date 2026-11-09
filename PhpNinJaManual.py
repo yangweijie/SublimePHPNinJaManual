@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import sublime, sublime_plugin
-import styled_popup
 import codecs,os,subprocess,threading,json,webbrowser,base64
 from .php_box import PhpBoxCommand
 from subprocess import PIPE
